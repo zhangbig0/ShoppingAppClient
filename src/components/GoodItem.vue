@@ -1,5 +1,5 @@
 <template>
-  <van-col span="12">
+  <van-col span="12" @click="OnclickGoods">
     <van-row>
       <van-col span="24">
         <van-image
@@ -27,7 +27,12 @@ export default {
   props: [
     'goodsName',
     'goodsPic'
-  ]
+  ],
+  methods: {
+    OnclickGoods() {
+      this.$router.replace({name: 'goodsDetail', path:'/goodsDetail/', params:{id:"1"}});
+    }
+  }
 }
 </script>
 

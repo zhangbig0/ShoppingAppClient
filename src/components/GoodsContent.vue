@@ -1,7 +1,7 @@
 <template>
   <van-row>
-    <good-item v-for="item in this.data" v-bind:key="item.goodsLabel" v-bind:goods-name="item.goodsLabel"
-              v-bind:goods-pic="item.goodsPic"></good-item>
+    <good-item v-for="item in this.data" v-bind:key="item.id" v-bind:goods-name="item.goodsLabel"
+               v-bind:goods-pic="item.goodsPic" ></good-item>
   </van-row>
 
 </template>
@@ -21,9 +21,12 @@ export default {
       data: []
     }
   },
+  methods: {
+  },
   mounted() {
     for (let i = 0; i < 20; i++) {
       this.data.push({
+        id: i,
         goodsPic: "https://img.yzcdn.cn/vant/cat.jpeg",
         goodsLabel: "猫"
       })
