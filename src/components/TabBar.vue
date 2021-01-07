@@ -1,9 +1,11 @@
 <template>
-  <van-tabbar route v-model="active" class="tab-bar" fixed="true">
+  <van-tabbar route v-model="active" class="tab-bar" :fixed="true">
 
     <van-tabbar-item replace to="/" icon="bag-o">首页</van-tabbar-item>
 
     <van-tabbar-item replace to="/shoppingcart" icon="cart-o">购物车</van-tabbar-item>
+
+    <van-tabbar-item replace to="/user" icon="user-o">用户</van-tabbar-item>
 
     <van-tabbar-item icon="setting-o">设置</van-tabbar-item>
   </van-tabbar>

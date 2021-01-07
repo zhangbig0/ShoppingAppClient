@@ -1,9 +1,10 @@
 <template>
   <div>
     <shopping-cart-item v-for="item in this.ShoppingCartData" v-bind:key="item.goodsName"
-                        :good-name="item.goodsName" :goods-detail="item.goodsDecs" v-bind:num="item.goodsNum"
-                        :goods-pic="item.goodsPic" v-bind:price="item.goodsPrice"/>
-    <van-submit-bar price=300 button-text="提交订单" disabled style="margin-bottom: 3rem" ></van-submit-bar>
+                        :good-name="item.goodsName" :goods-detail="item.goodsDecs" :goods-pic="item.goodsPic"
+                        :num="item.goodsNum" v-bind:price="item.goodsPrice"/>
+    <div style="height: 2rem"></div>
+    <van-submit-bar button-text="提交订单" disabled price=300 style="margin-bottom: 3rem"></van-submit-bar>
   </div>
 </template>
 
@@ -22,6 +23,25 @@ export default {
     }
   },
   mounted() {
+    let user = JSON.parse(sessionStorage.getItem("User"));
+    console.log(user);
+    this.$axios.get("https://localhost:8000/api/ShoppingBrackets/GetShoppingBracketByUser/" + user.id,)
+        .then(response => {
+          let data = response.data;
+          let goodsList = data.goodsList;
+          goodsList.forEach(
+              (value) =>{
+                this.ShoppingCartData.push({
+                  goodsId:value.id,
+                  goodsName: value.name,
+                  goodsDecs:"",
+                  goodsPrice: value.price,
+                  goodsNum:value.num,
+                  goodsPic: 'https://img.yzcdn.cn/vant/cat.jpg',
+                })
+              }
+          )
+        });
     for (let i = 0; i < 20; i++) {
       this.ShoppingCartData.push({
         goodsName: '商品名称',

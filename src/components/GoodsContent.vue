@@ -1,7 +1,7 @@
 <template>
-  <van-row>
-    <good-item v-for="item in this.data" v-bind:key="item.id" v-bind:goods-name="item.goodsLabel"
-               v-bind:goods-pic="item.goodsPic" ></good-item>
+  <van-row justify="space-around" type="flex">
+    <good-item v-for="item in this.data" v-bind:key="item.id" :goods="item"
+               :goods-id="item.id" v-bind:goods-name="item.goodsLabel" v-bind:goods-pic="item.goodsPic"></good-item>
   </van-row>
 
 </template>
@@ -21,16 +21,25 @@ export default {
       data: []
     }
   },
-  methods: {
-  },
+  methods: {},
   mounted() {
-    for (let i = 0; i < 20; i++) {
-      this.data.push({
-        id: i,
-        goodsPic: "https://img.yzcdn.cn/vant/cat.jpeg",
-        goodsLabel: "猫"
-      })
-    }
+
+    this.$axios.get("https://localhost:8000/api/Goods/Index")
+        .then(response => {
+          let goodsList = response.data
+          for (let goodsIndex in goodsList) {
+            let goods = goodsList[goodsIndex];
+            console.log(goods)
+            this.data.push({
+              goods: goods,
+              id: goods["id"],
+              goodsPrice: goods.price,
+              goodsPic: "https://img.yzcdn.cn/vant/cat.jpeg",
+              goodsLabel: goods["name"],
+            });
+
+          }
+        });
   }
 }
 </script>

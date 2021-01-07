@@ -2,7 +2,10 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Index from '../views/Index'
 import ShoppingCart from "../views/ShoppingCart";
-import GoodsDetail from "../views/GoodsDetail";
+import User from "@/views/User";
+import Login from "@/views/Login";
+import Register from "@/views/Register";
+import GoodsDetail from "@/views/GoodsDetail";
 
 Vue.use(VueRouter)
 
@@ -13,7 +16,7 @@ const routes = [
         component: Index
     },
     {
-        path: '/ShoppingCart',
+        path: '/shoppingCart',
         name: 'ShoppingCart',
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
@@ -22,14 +25,24 @@ const routes = [
     },
     {
         path: '/goodsDetail/:id',
-        name: 'goodsDetail',
+        name: 'GoodsDetail',
         component: GoodsDetail
+    },
+    {
+        path: '/user',
+        name: 'User',
+        component: User,
+    },
+    {
+        path: '/login',
+        name: 'Login',
+        component: Login
+    },
+    {
+        path: '/register',
+        name: 'Register',
+        component: Register
     }
-    // {
-    //     path: '/User/:id',
-    //     name: 'User',
-    // }
-
 ]
 
 const router = new VueRouter({
