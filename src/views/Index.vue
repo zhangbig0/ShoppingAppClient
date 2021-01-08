@@ -15,7 +15,7 @@
 
 import {Grid, GridItem, Image as VanImage, List, Tabbar, TabbarItem} from 'vant';
 import Vue from 'vue';
-import GoodsContent from "@/components/GoodsContent";
+import GoodsContent from "@/components/GoodsContentGrid";
 
 
 Vue.use(Tabbar);

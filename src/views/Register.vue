@@ -61,7 +61,7 @@ export default {
     },
 
     onSubmit() {
-      this.$axios.post("https://localhost:8000/api/Customers/Register", undefined, {
+      this.$axios.post(this.baseUrl+"/api/Customers/Register", undefined, {
         params: {
           username: this.username,
           password: this.password,

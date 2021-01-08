@@ -55,7 +55,7 @@ export default {
       this.$router.push({name: 'Register', path: '/register'});
     },
     onSubmit() {
-      this.$axios.post("https://localhost:8000/api/Customers/Login", undefined, {
+      this.$axios.post(this.baseUrl+"/api/Customers/Login", undefined, {
         headers: {
           "content-type": "application/json; charset=utf-8"
         },

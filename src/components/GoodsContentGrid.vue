@@ -34,7 +34,7 @@ export default {
               goods: goods,
               id: goods["id"],
               goodsPrice: goods.price,
-              goodsPic: "https://img.yzcdn.cn/vant/cat.jpeg",
+              goodsPic: goods.imgSrc,
               goodsLabel: goods["name"],
             });
 

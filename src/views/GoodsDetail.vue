@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-image class="good-pic" src="https://img.yzcdn.cn/vant/cat.jpeg"></van-image>
+    <van-image :src="goods.imgSrc" class="good-pic"></van-image>
     <van-goods-action style="margin-bottom: 3rem">
       <van-goods-action-icon color="#ee0a24" icon="chat-o" text="客服"/>
       <van-goods-action-icon :badge="5" icon="cart-o" text="购物车" @click="onClickCart"/>
@@ -23,13 +23,12 @@ export default {
   name: "GoodsDetail",
   data() {
     return {
-      good: {},
+      goods: {},
       user: undefined,
+      goodsId: undefined
     }
   },
-  props: [
-    'goodsId',
-  ],
+  props: [],
   methods: {
     onClickIcon() {
       Toast("点击图标");
@@ -42,23 +41,25 @@ export default {
     },
     onClickAddCart() {
       this.user = JSON.parse(sessionStorage.getItem("User"));
-      console.log(this.user);
 
-      console.log(JSON.stringify(this.good));
-      this.$axios.post("https://localhost:8000/api/ShoppingBrackets/AddGoodsToUserShoppingBracket/" + this.user.id+"/"+this.goodsId, undefined, {
-          headers: {
-            'Content-Type': 'application/json;charset=UTF-8',
-          }
+      this.$axios.post("https://localhost:8000/api/ShoppingBrackets/AddGoodsToUserShoppingBracket/" + this.user.id + "/" + this.goodsId, undefined, {
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8',
+        }
 
-        }).then(response => {
-          if (response.data !== null && response.data !== undefined) {
-            Toast.success("加入购物车成功");
-          }
-        });
+      }).then(response => {
+        if (response.data !== null && response.data !== undefined) {
+          Toast.success("加入购物车成功");
+        }
+      });
     }
   },
   mounted() {
     this.goodsId = this.$route.params.id;
+    this.$axios.get("https://localhost:8000/api/Goods/Detail/" + this.goodsId)
+        .then(response => {
+          this.goods = response.data
+        });
   }
 }
 </script>
