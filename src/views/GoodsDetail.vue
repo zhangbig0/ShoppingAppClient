@@ -3,7 +3,7 @@
     <van-image :src="goods.imgSrc" class="good-pic"></van-image>
     <van-goods-action style="margin-bottom: 3rem">
       <van-goods-action-icon color="#ee0a24" icon="chat-o" text="客服"/>
-      <van-goods-action-icon :badge="5" icon="cart-o" text="购物车" @click="onClickCart"/>
+      <van-goods-action-icon :badge="shoppingCart.count" icon="cart-o" text="购物车" @click="onClickCart"/>
       <van-goods-action-icon color="#ff5000" icon="star-o" text="未收藏"/>
       <van-goods-action-button text="加入购物车" type="warning" @click="onClickAddCart"/>
       <van-goods-action-button text="立即购买" type="danger"/>
@@ -25,7 +25,8 @@ export default {
     return {
       goods: {},
       user: undefined,
-      goodsId: undefined
+      goodsId: undefined,
+      shoppingCart: undefined
     }
   },
   props: [],
@@ -40,7 +41,7 @@ export default {
       this.$router.push({name: 'ShoppingCart', path: 'shoppingCart'});
     },
     onClickAddCart() {
-      this.user = JSON.parse(sessionStorage.getItem("User"));
+
 
       this.$axios.post("https://localhost:8000/api/ShoppingBrackets/AddGoodsToUserShoppingBracket/" + this.user.id + "/" + this.goodsId, undefined, {
         headers: {
@@ -50,16 +51,24 @@ export default {
       }).then(response => {
         if (response.data !== null && response.data !== undefined) {
           Toast.success("加入购物车成功");
+          this.shoppingCart = response.data;
         }
       });
     }
   },
   mounted() {
+    this.user = JSON.parse(sessionStorage.getItem("User"));
     this.goodsId = this.$route.params.id;
     this.$axios.get("https://localhost:8000/api/Goods/Detail/" + this.goodsId)
         .then(response => {
           this.goods = response.data
         });
+    this.$axios.get("https://localhost:8000/api/ShoppingBrackets/GetShoppingBracketByUser/" + this.user.id)
+        .then(response => {
+          this.shoppingCart = response.data;
+          console.log(response.data);
+          Toast.success("获取购物车成功");
+        })
   }
 }
 </script>

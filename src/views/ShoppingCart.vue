@@ -7,7 +7,7 @@
                           :goods-total-price="item.goodsTotalPrice" :num="item.goodsNum" :price="item.goodsPrice"
                           :total-price="totalPrice" @totalPriceChange="totalPriceChange"/>
     </van-checkbox-group>
-<!--    <div style="height: 2rem"></div>-->
+    <!--    <div style="height: 2rem"></div>-->
     <van-submit-bar :price="totalPrice*100" button-text="结算" style="margin-bottom: 3.5rem" @submit="onSubmit">
       <van-checkbox ref="allCheckBox" v-model="checked" @click="checkAll">全选</van-checkbox>
     </van-submit-bar>
@@ -16,13 +16,14 @@
 
 <script>
 import ShoppingCartItem from "../components/ShoppingCartItem";
-import {Checkbox, CheckboxGroup, SubmitBar} from 'vant';
+import {Checkbox, CheckboxGroup, SubmitBar, Toast} from 'vant';
 import '@vant/touch-emulator';
 import Vue from 'vue'
 
 Vue.use(Checkbox);
 Vue.use(CheckboxGroup);
 
+Vue.use(Toast);
 Vue.use(SubmitBar)
 export default {
   name: "ShoppingCart",
@@ -42,7 +43,7 @@ export default {
       this.$refs.checkboxGroup.toggleAll(this.checked);
     },
     onCheckGroupChange() {
-      this.$axios.post(this.baseUrl+"/api/ShoppingBrackets/ModifyShoppingBracketGoodsCheckedGroup/" + this.user.id, this.result, {
+      this.$axios.post(this.baseUrl + "/api/ShoppingBrackets/ModifyShoppingBracketGoodsCheckedGroup/" + this.user.id, this.result, {
         headers: {
           "content-type": "application/json; charset=utf-8"
         }
@@ -69,12 +70,17 @@ export default {
         this.$refs.allCheckBox.toggle(false);
       }
     },
-    onSubmit(){
-      this.$router.push({name:'ConfirmOrder', path:'/confirmOrder'});
+    onSubmit() {
+      this.$router.push({name: 'ConfirmOrder', path: '/confirmOrder'});
     }
   },
   mounted() {
-    this.$axios.get(this.baseUrl+"/api/ShoppingBrackets/GetShoppingBracketByUser/" + this.user.id,)
+    Toast.loading({
+      message: '加载中...',
+      forbidClick: true,
+
+    });
+    this.$axios.get(this.baseUrl + "/api/ShoppingBrackets/GetShoppingBracketByUser/" + this.user.id,)
         .then(response => {
           let data = response.data;
           let goodsList = data.goodsList;
@@ -108,7 +114,7 @@ export default {
       } else {
         this.$refs.allCheckBox.toggle(false);
       }
-    })
+    });
   }
 }
 </script>
